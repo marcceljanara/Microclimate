@@ -1,0 +1,2909 @@
+[
+    {
+        "id": "3be7a44bbb4980c9",
+        "type": "tab",
+        "label": "Main Flow",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "9d129fea2576b38e",
+        "type": "exec",
+        "z": "3be7a44bbb4980c9",
+        "command": "python3 \"/home/telti1/Documents/climate21/raingauge.py\"",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 410,
+        "y": 120,
+        "wires": [
+            [
+                "e2c1a612f651de01"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "526904c2814cac2f",
+        "type": "inject",
+        "z": "3be7a44bbb4980c9",
+        "name": "Raingauge",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 120,
+        "wires": [
+            [
+                "9d129fea2576b38e"
+            ]
+        ]
+    },
+    {
+        "id": "e42c8eeb7a670a20",
+        "type": "inject",
+        "z": "3be7a44bbb4980c9",
+        "name": "DS18B20",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "240.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 80,
+        "y": 540,
+        "wires": [
+            [
+                "cc49006ebc62c05f"
+            ]
+        ]
+    },
+    {
+        "id": "ba6459272600a21e",
+        "type": "join",
+        "z": "3be7a44bbb4980c9",
+        "name": "Join Logging",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "11",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "num",
+        "reduceFixup": "",
+        "x": 1110,
+        "y": 540,
+        "wires": [
+            [
+                "c3f7d42b8f184498"
+            ]
+        ]
+    },
+    {
+        "id": "34e536aaa90b882c",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "water_temperature",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 570,
+        "y": 540,
+        "wires": [
+            [
+                "ba6459272600a21e",
+                "87c68a1ff3815aea"
+            ]
+        ]
+    },
+    {
+        "id": "2f2258888db53dcb",
+        "type": "csv",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "sep": ",",
+        "hdrin": true,
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "timestamp,temperature,humidity,rainfall, direct,degrees,wind_speed,water_temperature,air_quality,co2,pyrano",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 1250,
+        "y": 540,
+        "wires": [
+            [
+                "306d3beb0c5dafa1"
+            ]
+        ]
+    },
+    {
+        "id": "306d3beb0c5dafa1",
+        "type": "file",
+        "z": "3be7a44bbb4980c9",
+        "name": "logger",
+        "filename": "/home/telti1/Documents/climate21/logger/logger_climate.csv",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1370,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ecf2a934276edbe0",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "timestamp",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 610,
+        "y": 40,
+        "wires": [
+            [
+                "ba6459272600a21e",
+                "934e78d003a27929"
+            ]
+        ]
+    },
+    {
+        "id": "3bc2f0f34b3343f3",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 46",
+        "func": "// Fungsi untuk mengubah NaN menjadi 0\nfunction handleNaN(data) {\n    if (isNaN(data)) {\n        return \"tidak_terdeteksi\";\n    }\n    return data;\n}\n\n// Menghubungkan input dari node sebelumnya\nvar input_data = msg.payload;\n\n// Memeriksa apakah data NaN atau bukan\nvar converted_data = handleNaN(input_data);\n\n// Membuat pesan baru dengan data yang telah diubah\nif(converted_data === \"tidak_terdeteksi\"){\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nvar msg = {\n    payload: parseFloat(converted_data)\n};\n\n// Mengirimkan pesan baru ke node selanjutnya\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 540,
+        "wires": [
+            [
+                "34e536aaa90b882c"
+            ]
+        ]
+    },
+    {
+        "id": "87c68a1ff3815aea",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 58",
+        "func": "var water_temperature = msg.payload;\n\nif(water_temperature === \"tidak_terdeteksi\"){\n    msg.payload = parseInt(999);\n    return msg;\n    \n}\n\nmsg.payload = water_temperature;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 540,
+        "wires": [
+            [
+                "934e78d003a27929"
+            ]
+        ]
+    },
+    {
+        "id": "934e78d003a27929",
+        "type": "join",
+        "z": "3be7a44bbb4980c9",
+        "name": "Join MQTT",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "11",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "num",
+        "reduceFixup": "",
+        "x": 1110,
+        "y": 600,
+        "wires": [
+            [
+                "43daf147ec5fd4a9"
+            ]
+        ]
+    },
+    {
+        "id": "fa6e99d202a1b159",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "rainfall",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 670,
+        "y": 200,
+        "wires": [
+            [
+                "ba6459272600a21e",
+                "934e78d003a27929"
+            ]
+        ]
+    },
+    {
+        "id": "e2c1a612f651de01",
+        "type": "string",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "methods": [
+            {
+                "name": "toFloat",
+                "params": [
+                    {
+                        "type": "num",
+                        "value": ""
+                    }
+                ]
+            }
+        ],
+        "prop": "payload",
+        "propout": "payload",
+        "object": "msg",
+        "objectout": "msg",
+        "x": 290,
+        "y": 200,
+        "wires": [
+            [
+                "fa6e99d202a1b159",
+                "e54c77f2aba36e33",
+                "db6395ae2c22d166"
+            ]
+        ]
+    },
+    {
+        "id": "0d2ab5a0a655fb99",
+        "type": "inject",
+        "z": "3be7a44bbb4980c9",
+        "name": "Arduino Mega 2560",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "600",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "240.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 820,
+        "wires": [
+            [
+                "5d621260f8fefcae"
+            ]
+        ]
+    },
+    {
+        "id": "49c72a313dccc962",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "pyrano",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 820,
+        "wires": [
+            [
+                "2ad47bcc220f65f8",
+                "ba6459272600a21e"
+            ]
+        ]
+    },
+    {
+        "id": "06dfd634a95e074e",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "data",
+        "func": "var inputString = msg.payload;\nvar outputArray = inputString.split(\" \");\nmsg.payload = outputArray\nreturn msg\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 900,
+        "wires": [
+            [
+                "9a062f2469f332e7",
+                "d563918c157cc401",
+                "512a3190da966293",
+                "142dd63532d9b0a8",
+                "36964ef545e332fb",
+                "490dd2f65df0eaeb"
+            ]
+        ]
+    },
+    {
+        "id": "d563918c157cc401",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "pyranometer",
+        "func": "// Ambil nilai string dari msg.payload\nvar pyrano = msg.payload[0];\nif (pyrano === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseInt(pyrano);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 820,
+        "wires": [
+            [
+                "49c72a313dccc962"
+            ]
+        ]
+    },
+    {
+        "id": "9a062f2469f332e7",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "temperature",
+        "func": "// Ambil nilai string dari msg.payload\nvar temp = msg.payload[1];\nif (temp === \"-45.00\" || temp === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseFloat(temp);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 860,
+        "wires": [
+            [
+                "c5aaadce4ce36c72"
+            ]
+        ]
+    },
+    {
+        "id": "512a3190da966293",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "humidity",
+        "func": "// Ambil nilai string dari msg.payload\nvar humidity = msg.payload[2];\nif (humidity === \"0.000\" || humidity === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseFloat(humidity);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 900,
+        "wires": [
+            [
+                "b4997f1e36e91e2d"
+            ]
+        ]
+    },
+    {
+        "id": "c5aaadce4ce36c72",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "temperature",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 860,
+        "wires": [
+            [
+                "d979b83c97d149c1",
+                "ba6459272600a21e"
+            ]
+        ]
+    },
+    {
+        "id": "b4997f1e36e91e2d",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "humidity",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 900,
+        "wires": [
+            [
+                "192aec30af6ba842",
+                "ba6459272600a21e"
+            ]
+        ]
+    },
+    {
+        "id": "d979b83c97d149c1",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 107",
+        "func": "var temperature = msg.payload;\n\nif(temperature === \"tidak_terdeteksi\"){\n    msg.payload = parseInt(999);\n    return msg;\n    \n}\n\nmsg.payload = temperature;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 860,
+        "wires": [
+            [
+                "934e78d003a27929"
+            ]
+        ]
+    },
+    {
+        "id": "192aec30af6ba842",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 108",
+        "func": "var humidity = msg.payload;\n\nif (humidity === \"tidak_terdeteksi\") {\n    msg.payload = parseInt(999);\n    return msg;\n\n}\n\nmsg.payload = humidity;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 900,
+        "wires": [
+            [
+                "934e78d003a27929"
+            ]
+        ]
+    },
+    {
+        "id": "2ad47bcc220f65f8",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 109",
+        "func": "var pyrano = msg.payload;\n\nif(pyrano === \"tidak_terdeteksi\"){\n    msg.payload = parseInt(999);\n    return msg;\n    \n}\n\nmsg.payload = pyrano;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 820,
+        "wires": [
+            [
+                "934e78d003a27929"
+            ]
+        ]
+    },
+    {
+        "id": "b03c8a3fd69c5899",
+        "type": "inject",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 1880,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "21e946a2a2cc5c1f",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "pyrano",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 730,
+        "y": 1840,
+        "wires": [
+            [
+                "2093fe4f26ab3649"
+            ]
+        ]
+    },
+    {
+        "id": "c4cc7ac068cc7b78",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 65",
+        "func": "var inputString = msg.payload;\nvar outputArray = inputString.split(\" \");\nmsg.payload = outputArray\nreturn msg\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 1860,
+        "wires": [
+            [
+                "efba39c00aaaf245",
+                "d0067d58d55457e2",
+                "53de9ed096ed323c"
+            ]
+        ]
+    },
+    {
+        "id": "d0067d58d55457e2",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 66",
+        "func": "// Ambil nilai string dari msg.payload\nvar pyrano = msg.payload[0];\nif (pyrano === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseInt(pyrano);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 1840,
+        "wires": [
+            [
+                "21e946a2a2cc5c1f"
+            ]
+        ]
+    },
+    {
+        "id": "efba39c00aaaf245",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 67",
+        "func": "// Ambil nilai string dari msg.payload\nvar temp = msg.payload[1];\nif (temp === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseFloat(temp);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 1880,
+        "wires": [
+            [
+                "908b9bbd449573c4"
+            ]
+        ]
+    },
+    {
+        "id": "879d7b2faa5dc870",
+        "type": "exec",
+        "z": "3be7a44bbb4980c9",
+        "command": "python3 \"/home/telti1/Documents/climate21/usb_sht_pyrano.py\"",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 330,
+        "y": 1980,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "53de9ed096ed323c",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 68",
+        "func": "// Ambil nilai string dari msg.payload\nvar humidity = msg.payload[2];\nif (humidity === \"tidak_terdeteksi\\n\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseFloat(humidity);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 1920,
+        "wires": [
+            [
+                "da5f45a7615451b7"
+            ]
+        ]
+    },
+    {
+        "id": "908b9bbd449573c4",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "temperature",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 730,
+        "y": 1880,
+        "wires": [
+            [
+                "934907696ea21c1f"
+            ]
+        ]
+    },
+    {
+        "id": "da5f45a7615451b7",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "humidity",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 730,
+        "y": 1920,
+        "wires": [
+            [
+                "417a6b9fcee40bec"
+            ]
+        ]
+    },
+    {
+        "id": "934907696ea21c1f",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 69",
+        "func": "var temperature = msg.payload;\n\nif(temperature === \"tidak_terdeteksi\"){\n    msg.payload = parseInt(999);\n    return msg;\n    \n}\n\nmsg.payload = temperature;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 1880,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "417a6b9fcee40bec",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 70",
+        "func": "var humidity = msg.payload;\n\nif (humidity === \"tidak_terdeteksi\") {\n    msg.payload = parseInt(999);\n    return msg;\n\n}\n\nmsg.payload = humidity;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 1920,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2093fe4f26ab3649",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 71",
+        "func": "var pyrano = msg.payload;\n\nif(pyrano === \"tidak_terdeteksi\"){\n    msg.payload = parseInt(999);\n    return msg;\n    \n}\n\nmsg.payload = pyrano;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 1840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "71f03294bd85273a",
+        "type": "inject",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 2040,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a8b5dc8d8d55952a",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "temperature",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 750,
+        "y": 2120,
+        "wires": [
+            [
+                "5842423cf6d7e251"
+            ]
+        ]
+    },
+    {
+        "id": "ea074635edf0bcf0",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "humidity",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 750,
+        "y": 2160,
+        "wires": [
+            [
+                "11459de635f21841"
+            ]
+        ]
+    },
+    {
+        "id": "69214e0eaf31c937",
+        "type": "exec",
+        "z": "3be7a44bbb4980c9",
+        "command": "python3 \"/home/telti1/Documents/climate21/sht85_run.py\"",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 420,
+        "y": 2040,
+        "wires": [
+            [
+                "7a1fea95142e71db"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "7a1fea95142e71db",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 39",
+        "func": "var inputString = msg.payload;\nvar outputArray = inputString.split(\" \");\nmsg.payload = outputArray\nreturn msg\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 2120,
+        "wires": [
+            [
+                "90e00509d1e42d9e",
+                "9b7d0e4a1dd68d2d"
+            ]
+        ]
+    },
+    {
+        "id": "9b7d0e4a1dd68d2d",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 40",
+        "func": "// Ambil nilai string dari msg.payload\nvar temperature = msg.payload[0];\nif (temperature === \"tidak_terdeteksi\" || temperature === \"-45\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseFloat(temperature);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 2120,
+        "wires": [
+            [
+                "a8b5dc8d8d55952a"
+            ]
+        ]
+    },
+    {
+        "id": "90e00509d1e42d9e",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 41",
+        "func": "// Ambil nilai string dari msg.payload\nvar humidity = msg.payload[1];\nif (humidity === \"tidak_terdeteksi\\n\" || humidity === \"100\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseFloat(humidity);\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 2160,
+        "wires": [
+            [
+                "ea074635edf0bcf0"
+            ]
+        ]
+    },
+    {
+        "id": "5842423cf6d7e251",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 53",
+        "func": "var temperature = msg.payload;\n\nif(temperature === \"tidak_terdeteksi\"){\n    msg.payload = parseInt(999);\n    return msg;\n    \n}\n\nmsg.payload = temperature;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 2120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "11459de635f21841",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 54",
+        "func": "var humidity = msg.payload;\n\nif (humidity === \"tidak_terdeteksi\") {\n    msg.payload = parseInt(999);\n    return msg;\n\n}\n\nmsg.payload = humidity;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 2160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a60c30a361f82764",
+        "type": "exec",
+        "z": "3be7a44bbb4980c9",
+        "command": "python3 \"/home/telti1/Documents/climate21/wind_direct.py\"",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 420,
+        "y": 2240,
+        "wires": [
+            [
+                "8426291a8c5d0fa2"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "0548b6a72947835f",
+        "type": "inject",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 2240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "32340338da095f61",
+        "type": "exec",
+        "z": "3be7a44bbb4980c9",
+        "command": "python3 \"/home/telti1/Documents/climate21/anemometer.py\"",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 420,
+        "y": 2440,
+        "wires": [
+            [
+                "981194635eac2dee"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "0448360bd28bef22",
+        "type": "inject",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 2440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "609b273487e81fe1",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "direct",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 790,
+        "y": 2320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b0f54b4765cf13b8",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "degrees",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 790,
+        "y": 2360,
+        "wires": [
+            [
+                "f3260af5e462a141"
+            ]
+        ]
+    },
+    {
+        "id": "1f18f160166b1f26",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "wind_speed",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 890,
+        "y": 2440,
+        "wires": [
+            [
+                "3183dc9e7f5ff358"
+            ]
+        ]
+    },
+    {
+        "id": "8426291a8c5d0fa2",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 42",
+        "func": "var inputString = msg.payload;\nvar outputArray = inputString.split(\" \");\nmsg.payload = outputArray\nreturn msg\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 2320,
+        "wires": [
+            [
+                "251e294a0e41b028",
+                "0bc11c8f6d14be13"
+            ]
+        ]
+    },
+    {
+        "id": "0bc11c8f6d14be13",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 43",
+        "func": "// Ambil nilai string dari msg.payload\nvar direct = msg.payload[0];\nif (direct === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = direct;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 2320,
+        "wires": [
+            [
+                "609b273487e81fe1"
+            ]
+        ]
+    },
+    {
+        "id": "251e294a0e41b028",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 44",
+        "func": "// Ambil nilai string dari msg.payload\nvar degrees = msg.payload[1];\nif (degrees === \"tidak_terdeteksi\\n\" || degrees === isNaN(degrees)) {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseInt(degrees);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 2360,
+        "wires": [
+            [
+                "b0f54b4765cf13b8"
+            ]
+        ]
+    },
+    {
+        "id": "981194635eac2dee",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 45",
+        "func": "// Ambil nilai string dari msg.payload\nvar wind_speed = msg.payload;\nif (wind_speed === \"tidak_terdeteksi\\n\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseFloat(wind_speed);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 2440,
+        "wires": [
+            [
+                "1f18f160166b1f26"
+            ]
+        ]
+    },
+    {
+        "id": "f3260af5e462a141",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 56",
+        "func": "var degrees = msg.payload;\n\nif (degrees === \"tidak_terdeteksi\") {\n    msg.payload = parseInt(999);\n    return msg;\n\n}\n\nmsg.payload = degrees;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 969,
+        "y": 2362,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3183dc9e7f5ff358",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 57",
+        "func": "var wind_speed = msg.payload;\n\nif (wind_speed === \"tidak_terdeteksi\") {\n    msg.payload = parseInt(999);\n    return msg;\n\n}\n\nmsg.payload = wind_speed;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1076,
+        "y": 2443,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cc49006ebc62c05f",
+        "type": "sensor-ds18b20",
+        "z": "3be7a44bbb4980c9",
+        "name": "DS18B20",
+        "topic": "",
+        "sensorid": "28-00000e811e90",
+        "timer": "600",
+        "repeat": true,
+        "x": 260,
+        "y": 540,
+        "wires": [
+            [
+                "3bc2f0f34b3343f3"
+            ]
+        ]
+    },
+    {
+        "id": "5d621260f8fefcae",
+        "type": "serial request",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "serial": "c4973f35d5bee243",
+        "x": 330,
+        "y": 820,
+        "wires": [
+            [
+                "c6767709b37caa6b"
+            ]
+        ]
+    },
+    {
+        "id": "ad6cfe7f50e7b1ce",
+        "type": "inject",
+        "z": "3be7a44bbb4980c9",
+        "name": "ENS160",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 80,
+        "y": 620,
+        "wires": [
+            [
+                "0409abaadaf82bc3"
+            ]
+        ]
+    },
+    {
+        "id": "0409abaadaf82bc3",
+        "type": "exec",
+        "z": "3be7a44bbb4980c9",
+        "command": "python3 \"/home/telti1/Documents/climate21/ens160.py\"",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 393,
+        "y": 620,
+        "wires": [
+            [
+                "328c1ccaa36982b6"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "9a2257e0ec6c4928",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "air_quality",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 610,
+        "y": 700,
+        "wires": [
+            [
+                "271aa043440dd158",
+                "ba6459272600a21e"
+            ]
+        ]
+    },
+    {
+        "id": "9a2d9b1c60e1f32f",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "co2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 610,
+        "y": 740,
+        "wires": [
+            [
+                "5918aab54e89cdc3",
+                "ba6459272600a21e"
+            ]
+        ]
+    },
+    {
+        "id": "328c1ccaa36982b6",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 47",
+        "func": "var inputString = msg.payload;\nvar outputArray = inputString.split(\" \");\nmsg.payload = outputArray\nreturn msg\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 283,
+        "y": 720,
+        "wires": [
+            [
+                "9a08e3b76f1dbf2a",
+                "860d684943a85f93"
+            ]
+        ]
+    },
+    {
+        "id": "860d684943a85f93",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "AQI",
+        "func": "// Ambil nilai string dari msg.payload\nvar aqi = msg.payload[0];\nif (aqi === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseInt(aqi);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 463,
+        "y": 700,
+        "wires": [
+            [
+                "9a2257e0ec6c4928"
+            ]
+        ]
+    },
+    {
+        "id": "9a08e3b76f1dbf2a",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "CO2",
+        "func": "// Ambil nilai string dari msg.payload\nvar co2 = msg.payload[1];\nif (co2 === \"tidak_terdeteksi\\n\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseInt(co2);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 463,
+        "y": 740,
+        "wires": [
+            [
+                "9a2d9b1c60e1f32f"
+            ]
+        ]
+    },
+    {
+        "id": "271aa043440dd158",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 59",
+        "func": "var aqi = msg.payload;\n\nif (aqi === \"tidak_terdeteksi\") {\n    msg.payload = parseInt(999);\n    return msg;\n\n}\n\nmsg.payload = aqi;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 700,
+        "wires": [
+            [
+                "934e78d003a27929"
+            ]
+        ]
+    },
+    {
+        "id": "5918aab54e89cdc3",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 60",
+        "func": "var co2 = msg.payload;\n\nif (co2 === \"tidak_terdeteksi\") {\n    msg.payload = parseInt(999);\n    return msg;\n\n}\n\nmsg.payload = co2;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 740,
+        "wires": [
+            [
+                "934e78d003a27929"
+            ]
+        ]
+    },
+    {
+        "id": "ee1be6a12a2d3e48",
+        "type": "inject",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 2560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "efb7b1ca641b48cf",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 110",
+        "func": "var inputString = msg.payload;\n\nvar outputArray = inputString.split(\" \");\nmsg.payload = outputArray\nreturn msg\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 358.3333435058594,
+        "y": 2659.3333740234375,
+        "wires": [
+            [
+                "2b5e71ca49ff188b",
+                "2f3480b3afe674fb",
+                "c25f8e64226827fb"
+            ]
+        ]
+    },
+    {
+        "id": "964278383cea3096",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "direct",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 698.3333435058594,
+        "y": 2659.3333740234375,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2b5e71ca49ff188b",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 111",
+        "func": "// Ambil nilai string dari msg.payload\nvar direct = msg.payload[1];\nif (direct === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = direct;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 538.3333435058594,
+        "y": 2659.3333740234375,
+        "wires": [
+            [
+                "964278383cea3096"
+            ]
+        ]
+    },
+    {
+        "id": "2f3480b3afe674fb",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 112",
+        "func": "// Ambil nilai string dari msg.payload\nvar degrees = msg.payload[2];\nif (degrees === \"tidak_terdeteksi\" || isNaN(degrees)) {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseInt(degrees);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 538.3333435058594,
+        "y": 2699.3333740234375,
+        "wires": [
+            [
+                "73bb6b48894669fc"
+            ]
+        ]
+    },
+    {
+        "id": "c25f8e64226827fb",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 113",
+        "func": "// Ambil nilai string dari msg.payload\nvar wind_speed = msg.payload[0];\nif (wind_speed === \"tidak_terdeteksi\" || wind_speed === isNaN(wind_speed)) {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseFloat(wind_speed);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 538.3333435058594,
+        "y": 2739.3333740234375,
+        "wires": [
+            [
+                "49f2f6627737096f"
+            ]
+        ]
+    },
+    {
+        "id": "73bb6b48894669fc",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "degrees",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 698.3333435058594,
+        "y": 2699.3333740234375,
+        "wires": [
+            [
+                "c1066039b24df827"
+            ]
+        ]
+    },
+    {
+        "id": "49f2f6627737096f",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "wind_speed",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 698.3333435058594,
+        "y": 2739.3333740234375,
+        "wires": [
+            [
+                "e356302d816dc169"
+            ]
+        ]
+    },
+    {
+        "id": "c1066039b24df827",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 118",
+        "func": "var degrees = msg.payload;\n\nif (degrees === \"tidak_terdeteksi\") {\n    msg.payload = parseInt(999);\n    return msg;\n\n}\n\nmsg.payload = degrees;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 858.3333435058594,
+        "y": 2699.3333740234375,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e356302d816dc169",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 119",
+        "func": "var wind_speed = msg.payload;\n\nif (wind_speed === \"tidak_terdeteksi\") {\n    msg.payload = parseInt(999);\n    return msg;\n\n}\n\nmsg.payload = wind_speed;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 858.3333435058594,
+        "y": 2739.3333740234375,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "407de73a057331fc",
+        "type": "exec",
+        "z": "3be7a44bbb4980c9",
+        "command": "python3 \"/home/telti1/Documents/climate21/wind_speed_direction.py\"",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 458.3333435058594,
+        "y": 2559.3333740234375,
+        "wires": [
+            [
+                "efb7b1ca641b48cf"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "fdc079866ebe2f5d",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "timestamp",
+        "func": "// Ambil nilai string dari msg.payload\nvar seconds = msg.payload[0];\nvar minutes = msg.payload[1];\nvar hours = msg.payload[2];\nvar days = msg.payload[5];\nvar months = msg.payload[6];\nvar years = msg.payload[7]\n\nvar date = `${years}-${months}-${days} ${hours}:${minutes}:${seconds}`;\nmsg.payload = date;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 40,
+        "wires": [
+            [
+                "ecf2a934276edbe0"
+            ]
+        ]
+    },
+    {
+        "id": "142dd63532d9b0a8",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "wind speed",
+        "func": "// Ambil nilai string dari msg.payload\nvar wind_speed = msg.payload[3];\nif (wind_speed === \"-1\" || wind_speed === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseFloat(wind_speed);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 940,
+        "wires": [
+            [
+                "d4c0fcdd47fccf37"
+            ]
+        ]
+    },
+    {
+        "id": "d4c0fcdd47fccf37",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "wind_speed",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 940,
+        "wires": [
+            [
+                "766dbc9a9e97ef24",
+                "ba6459272600a21e"
+            ]
+        ]
+    },
+    {
+        "id": "766dbc9a9e97ef24",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 154",
+        "func": "var wind_speed = msg.payload;\n\nif (wind_speed === \"tidak_terdeteksi\") {\n    msg.payload = parseInt(999);\n    return msg;\n\n}\n\nmsg.payload = wind_speed;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 940,
+        "wires": [
+            [
+                "934e78d003a27929"
+            ]
+        ]
+    },
+    {
+        "id": "36964ef545e332fb",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "wind direction",
+        "func": "// Ambil nilai string dari msg.payload\nvar direction = msg.payload[4];\nif (direction === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = direction;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 980,
+        "wires": [
+            [
+                "430f733751f11e5e"
+            ]
+        ]
+    },
+    {
+        "id": "1c4e84683c397177",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "direction",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 980,
+        "wires": [
+            [
+                "b71a379b73f2c181",
+                "ba6459272600a21e"
+            ]
+        ]
+    },
+    {
+        "id": "b71a379b73f2c181",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 156",
+        "func": "var direction = msg.payload;\n\nif (direction === \"tidak_terdeteksi\") {\n    msg.payload = parseInt(999);\n    return msg;\n\n}\n\nmsg.payload = direction;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 980,
+        "wires": [
+            [
+                "934e78d003a27929"
+            ]
+        ]
+    },
+    {
+        "id": "490dd2f65df0eaeb",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "wind angle",
+        "func": "// Ambil nilai string dari msg.payload\nvar angle = msg.payload[5];\nif (angle === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseFloat(angle);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 1020,
+        "wires": [
+            [
+                "d69edd0819e50a5c"
+            ]
+        ]
+    },
+    {
+        "id": "d69edd0819e50a5c",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "angle",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 1020,
+        "wires": [
+            [
+                "da65e71e60d4ef62",
+                "ba6459272600a21e"
+            ]
+        ]
+    },
+    {
+        "id": "da65e71e60d4ef62",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 158",
+        "func": "var angle = msg.payload;\n\nif (angle === \"tidak_terdeteksi\") {\n    msg.payload = parseInt(999);\n    return msg;\n\n}\n\nmsg.payload = angle;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 1020,
+        "wires": [
+            [
+                "934e78d003a27929"
+            ]
+        ]
+    },
+    {
+        "id": "26daebbd5ff3d269",
+        "type": "inject",
+        "z": "3be7a44bbb4980c9",
+        "name": "MICS4514",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "600",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "240.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 1220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0c2f8f52ac7889c7",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "CO",
+        "func": "// Ambil nilai string dari msg.payload\nvar co = msg.payload[0];\nif (co === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseFloat(co);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 1200,
+        "wires": [
+            [
+                "520cd7c6cef06c52"
+            ]
+        ]
+    },
+    {
+        "id": "3f652f241ee44ef3",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "CH4",
+        "func": "// Ambil nilai string dari msg.payload\nvar ch4 = msg.payload[1];\nif (ch4 === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseFloat(ch4);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 613,
+        "y": 1242,
+        "wires": [
+            [
+                "5146f89e9e6eddd6"
+            ]
+        ]
+    },
+    {
+        "id": "98ef7d5c099e7b43",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "C2H5OH",
+        "func": "// Ambil nilai string dari msg.payload\nvar c2h5oh = msg.payload[2];\nif (c2h5oh === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseFloat(c2h5oh);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 623,
+        "y": 1282,
+        "wires": [
+            [
+                "f43ba7d3201ea016"
+            ]
+        ]
+    },
+    {
+        "id": "884006a47722d6cb",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "H2",
+        "func": "// Ambil nilai string dari msg.payload\nvar h2 = msg.payload[3];\nif (h2 === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseFloat(h2);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 613,
+        "y": 1322,
+        "wires": [
+            [
+                "70b47514ac068e58"
+            ]
+        ]
+    },
+    {
+        "id": "3752ade634b2c9f6",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "NH3",
+        "func": "// Ambil nilai string dari msg.payload\nvar nh3 = msg.payload[4];\nif (nh3 === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseFloat(nh3);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 613,
+        "y": 1362,
+        "wires": [
+            [
+                "b85956b28fc3d609"
+            ]
+        ]
+    },
+    {
+        "id": "0979342970d6007e",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "NO2",
+        "func": "// Ambil nilai string dari msg.payload\nvar no2 = msg.payload[5];\nif (no2 === \"tidak_terdeteksi\") {\n    msg.payload = \"tidak_terdeteksi\";\n    return msg;\n}\n\nmsg.payload = parseFloat(no2);\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 613,
+        "y": 1402,
+        "wires": [
+            [
+                "20e4eeb8f690fb15"
+            ]
+        ]
+    },
+    {
+        "id": "520cd7c6cef06c52",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "CO",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 793,
+        "y": 1202,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5146f89e9e6eddd6",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "CH4",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 793,
+        "y": 1242,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f43ba7d3201ea016",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "C2H5OH",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 793,
+        "y": 1282,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "70b47514ac068e58",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "H2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 793,
+        "y": 1322,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b85956b28fc3d609",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "NH3",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 793,
+        "y": 1362,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "20e4eeb8f690fb15",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "NO2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 793,
+        "y": 1402,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f989f79289277c4d",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 140",
+        "func": "var inputString = msg.payload;\nvar outputArray = inputString.split(\" \");\nmsg.payload = outputArray\nreturn msg\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 453,
+        "y": 1222,
+        "wires": [
+            [
+                "0c2f8f52ac7889c7",
+                "3f652f241ee44ef3",
+                "98ef7d5c099e7b43",
+                "884006a47722d6cb",
+                "3752ade634b2c9f6",
+                "0979342970d6007e"
+            ]
+        ]
+    },
+    {
+        "id": "b0a8b1643cab25fa",
+        "type": "exec",
+        "z": "3be7a44bbb4980c9",
+        "command": "",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 270,
+        "y": 1220,
+        "wires": [
+            [
+                "f989f79289277c4d"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "65b80aa4813452df",
+        "type": "inject",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "240.1",
+        "topic": "",
+        "payload": "ntp.bmkg.go.id",
+        "payloadType": "str",
+        "x": 100,
+        "y": 40,
+        "wires": [
+            [
+                "cbb8c8da2b125485"
+            ]
+        ]
+    },
+    {
+        "id": "cbb8c8da2b125485",
+        "type": "iiot-ntptime",
+        "z": "3be7a44bbb4980c9",
+        "ntpserver": "",
+        "ampm": false,
+        "tupdate": "1",
+        "timeu": "s",
+        "tout": 5000,
+        "x": 277,
+        "y": 41,
+        "wires": [
+            [
+                "fdc079866ebe2f5d"
+            ]
+        ]
+    },
+    {
+        "id": "4c1a06cc742d732f",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 172",
+        "func": "var data = msg.payload.total;\nmsg.payload = data;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 260,
+        "wires": [
+            [
+                "535e0d2c2136682a"
+            ]
+        ]
+    },
+    {
+        "id": "535e0d2c2136682a",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "rainhour",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 670,
+        "y": 260,
+        "wires": [
+            [
+                "a52dec21b02b6537"
+            ]
+        ]
+    },
+    {
+        "id": "0eb79dd62b308170",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "timestamp",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 670,
+        "y": 320,
+        "wires": [
+            [
+                "a52dec21b02b6537"
+            ]
+        ]
+    },
+    {
+        "id": "b83376da64f0980c",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 173",
+        "func": "var data = msg.payload.total;\nmsg.payload = data;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 380,
+        "wires": [
+            [
+                "bad89c0c8d67b70b"
+            ]
+        ]
+    },
+    {
+        "id": "bad89c0c8d67b70b",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "rainday",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 670,
+        "y": 380,
+        "wires": [
+            [
+                "e5303448e6941705"
+            ]
+        ]
+    },
+    {
+        "id": "c0da4ccfaad04242",
+        "type": "change",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "timestamp",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 670,
+        "y": 440,
+        "wires": [
+            [
+                "e5303448e6941705"
+            ]
+        ]
+    },
+    {
+        "id": "6691fb4d994353c8",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "timestamp 1 day",
+        "func": "// Ambil nilai string dari msg.payload\nvar seconds = msg.payload[0];\nvar minutes = msg.payload[1];\nvar hours = msg.payload[2];\nvar days = msg.payload[5];\nvar months = msg.payload[6];\nvar years = msg.payload[7]\n\nvar date = `${years}-${months}-${days} ${hours}:${minutes}:${seconds}`;\nmsg.payload = date;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 440,
+        "wires": [
+            [
+                "c0da4ccfaad04242"
+            ]
+        ]
+    },
+    {
+        "id": "8205c298f3bc91ac",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "timestamp 1 hour",
+        "func": "// Ambil nilai string dari msg.payload\nvar seconds = msg.payload[0];\nvar minutes = msg.payload[1];\nvar hours = msg.payload[2];\nvar days = msg.payload[5];\nvar months = msg.payload[6];\nvar years = msg.payload[7]\n\nvar date = `${years}-${months}-${days} ${hours}:${minutes}:${seconds}`;\nmsg.payload = date;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 320,
+        "wires": [
+            [
+                "0eb79dd62b308170"
+            ]
+        ]
+    },
+    {
+        "id": "3036f1c35df13ea3",
+        "type": "inject",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "240.1",
+        "topic": "",
+        "payload": "ntp.bmkg.go.id",
+        "payloadType": "str",
+        "x": 120,
+        "y": 440,
+        "wires": [
+            [
+                "d7d23b62a0064b31"
+            ]
+        ]
+    },
+    {
+        "id": "d7d23b62a0064b31",
+        "type": "iiot-ntptime",
+        "z": "3be7a44bbb4980c9",
+        "ntpserver": "",
+        "ampm": false,
+        "tupdate": "1",
+        "timeu": "s",
+        "tout": 5000,
+        "x": 280,
+        "y": 440,
+        "wires": [
+            [
+                "6691fb4d994353c8"
+            ]
+        ]
+    },
+    {
+        "id": "b594a4922b66f24c",
+        "type": "inject",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "240.1",
+        "topic": "",
+        "payload": "ntp.bmkg.go.id",
+        "payloadType": "str",
+        "x": 120,
+        "y": 320,
+        "wires": [
+            [
+                "912252d1d7d82cd9"
+            ]
+        ]
+    },
+    {
+        "id": "912252d1d7d82cd9",
+        "type": "iiot-ntptime",
+        "z": "3be7a44bbb4980c9",
+        "ntpserver": "",
+        "ampm": false,
+        "tupdate": "1",
+        "timeu": "s",
+        "tout": 5000,
+        "x": 300,
+        "y": 320,
+        "wires": [
+            [
+                "8205c298f3bc91ac"
+            ]
+        ]
+    },
+    {
+        "id": "a52dec21b02b6537",
+        "type": "join",
+        "z": "3be7a44bbb4980c9",
+        "name": "Join Rainfall Hour",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1110,
+        "y": 280,
+        "wires": [
+            [
+                "fdebda663ad1bf51"
+            ]
+        ]
+    },
+    {
+        "id": "e5303448e6941705",
+        "type": "join",
+        "z": "3be7a44bbb4980c9",
+        "name": "Join Rainfall Day",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1130,
+        "y": 400,
+        "wires": [
+            [
+                "f6dd54bdcad3eda0"
+            ]
+        ]
+    },
+    {
+        "id": "43daf147ec5fd4a9",
+        "type": "mqtt out",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "topic": "climate/petengoran1",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "cc87ecd65d858430",
+        "x": 1300,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "f6dd54bdcad3eda0",
+        "type": "mqtt out",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "topic": "climate/petengoran1/rainfallday",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "cc87ecd65d858430",
+        "x": 1370,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "fdebda663ad1bf51",
+        "type": "mqtt out",
+        "z": "3be7a44bbb4980c9",
+        "name": "",
+        "topic": "climate/petengoran1/rainfallhour",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "cc87ecd65d858430",
+        "x": 1390,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "c6767709b37caa6b",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "Validation",
+        "func": "\nif (msg.payload === undefined) {\n    msg.payload = \"tidak_terdeteksi tidak_terdeteksi tidak_terdeteksi tidak_terdeteksi tidak_terdeteksi tidak_terdeteksi\";\n    return msg\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 160,
+        "y": 900,
+        "wires": [
+            [
+                "06dfd634a95e074e"
+            ]
+        ]
+    },
+    {
+        "id": "e54c77f2aba36e33",
+        "type": "totaliser",
+        "z": "3be7a44bbb4980c9",
+        "output": "sum",
+        "interval": "1",
+        "intervalUnits": "hours",
+        "name": "Rain Totaliser 1 hour",
+        "x": 320,
+        "y": 260,
+        "wires": [
+            [
+                "4c1a06cc742d732f"
+            ]
+        ]
+    },
+    {
+        "id": "db6395ae2c22d166",
+        "type": "totaliser",
+        "z": "3be7a44bbb4980c9",
+        "output": "sum",
+        "interval": "24",
+        "intervalUnits": "hours",
+        "name": "Rain Totaliser 24 hour",
+        "x": 320,
+        "y": 380,
+        "wires": [
+            [
+                "b83376da64f0980c"
+            ]
+        ]
+    },
+    {
+        "id": "c3f7d42b8f184498",
+        "type": "debug",
+        "z": "3be7a44bbb4980c9",
+        "name": "debug 42",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "430f733751f11e5e",
+        "type": "function",
+        "z": "3be7a44bbb4980c9",
+        "name": "function 176",
+        "func": "// payload mentah\nconst stringDirection = msg.payload;\n\n// Memisahkan string berdasarkan underscore\nconst arrayStringDirection = stringDirection.split('_');\n\n// Menggabungkan kembali string dengan spasi\nconst stringAkhir = arrayStringDirection.join(' ');\n\n// payload akhir\nmsg.payload = stringAkhir;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 980,
+        "wires": [
+            [
+                "1c4e84683c397177"
+            ]
+        ]
+    },
+    {
+        "id": "c4973f35d5bee243",
+        "type": "serial-port",
+        "serialport": "/dev/ttyUSB0",
+        "serialbaud": "115200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "cc87ecd65d858430",
+        "type": "mqtt-broker",
+        "name": "publisher",
+        "broker": "http://vps.isi-net.org",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
