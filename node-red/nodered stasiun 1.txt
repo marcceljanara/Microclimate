@@ -1,0 +1,19 @@
+[
+    {
+        "id": "306d3beb0c5dafa1",
+        "type": "file",
+        "z": "3be7a44bbb4980c9",
+        "name": "logger",
+        "filename": "/home/telti1/Documents/climate21/logger/logger_climate.csv",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1370,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    }
+]
