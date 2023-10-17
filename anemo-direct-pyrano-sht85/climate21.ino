@@ -35,7 +35,6 @@ const char* Orientation[17] = {
 };
 
 // anemometer
-// SoftwareSerial Serial2(2, 3); //Define the soft serial port, port 3 is TX, port 2 is RX,
 uint8_t addressWindSpeed = 0x10;
 
 // sht 85
@@ -57,16 +56,12 @@ void setup() {
   pinMode(DE, OUTPUT);
   // Init the sensor
   while ( !( windDirection.begin() ) ) {
-    // Serial.println("Communication with device failed, please check connection");
     delay(3000);
   }
   Wire.begin();
   sht.begin(SHT85_ADDRESS);
   Wire.setClock(100000);
 
-  // uint16_t stat = sht.readStatus();
-  // uint32_t ser = sht.GetSerialNumber();
-  // Serial.println("Begin ok!");
   delay(1000);
 }
 
@@ -97,13 +92,8 @@ void loop() {
   while (mod.available() && index < 8) 
   {
     values[index] = mod.read();
-    // Serial.print(values[index], HEX);
-    // Serial.print(" ");
     index++;
   }
-  // Serial.println();
- 
-  // Parse the Solar Radiation value
   int Solar_Radiation = int(values[3] << 8 | values[4]);
 
   Serial.print(Solar_Radiation);
