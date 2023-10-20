@@ -1,7 +1,7 @@
 # Microclimate
 
 - Rasberry Pi
-1. Rain Gauge : GPIO 16
+1. Rain Gauge : SDA SCL (I2C)
 2. ENS160 : SDA SCL (I2C)
 3. DS18B20 : GPIO 26
 
