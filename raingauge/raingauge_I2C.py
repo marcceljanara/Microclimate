@@ -18,12 +18,12 @@ from DFRobot_RainfallSensor import *
 
 #sensor=DFRobot_RainfallSensor_UART()
 sensor=DFRobot_RainfallSensor_I2C()
-interval = 10
+interval = 600
 
 def setup():
   while (sensor.begin() == False):
     print("tidak_terdeteksi")
-    time.sleep(10)
+    time.sleep(600)
 
   #Get the raw data, which is the tipping bucket count of rainfall, in units of counts.
   #sensor.set_rain_accumulated_value(0.2794)
@@ -55,7 +55,7 @@ def loop():
        start_time = time.time()
 
 if __name__ == "__main__":
-  time.sleep(5)
+  time.sleep(240)
   setup()
   while True:
     loop()
