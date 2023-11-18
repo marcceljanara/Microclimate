@@ -14,3 +14,5 @@
 2. Anemometer RS485 : RX2(16) dan TX2(17) --> Module XY485
 3. Wind Direction RS485 : RX 18 dan TX 19 --> Module XY485
 4. SHT85 : SDA SCL (I2C)
+
+BY Marccel Janara 
