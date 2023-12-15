@@ -1,0 +1,638 @@
+[
+    {
+        "id": "692949d792283a2c",
+        "type": "tab",
+        "label": "Siskom",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "441900dff971e1cf",
+        "type": "json",
+        "z": "692949d792283a2c",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 430,
+        "y": 220,
+        "wires": [
+            [
+                "62b2a9b240ba7c90",
+                "8dc5c2a9364e48a3",
+                "3721cc6c474bb04a",
+                "f2bbc34c321030aa",
+                "5cb152f9f02f202c",
+                "10f1d7051061fc3e",
+                "b9f8928db8d6f20a"
+            ]
+        ]
+    },
+    {
+        "id": "62b2a9b240ba7c90",
+        "type": "function",
+        "z": "692949d792283a2c",
+        "name": "function 177",
+        "func": "var data = msg.payload;\nif(data.node === 1){\n    msg.payload = data;\n    return msg;\n}\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 220,
+        "wires": [
+            [
+                "0f3a4801b63d81ce"
+            ]
+        ]
+    },
+    {
+        "id": "8dc5c2a9364e48a3",
+        "type": "function",
+        "z": "692949d792283a2c",
+        "name": "function 178",
+        "func": "var data = msg.payload;\nif(data.node === 2){\n    msg.payload = data;\n    return msg;\n}\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 260,
+        "wires": [
+            [
+                "ae67f73561944787"
+            ]
+        ]
+    },
+    {
+        "id": "3721cc6c474bb04a",
+        "type": "function",
+        "z": "692949d792283a2c",
+        "name": "function 179",
+        "func": "var data = msg.payload;\nif(data.node === 3){\n    msg.payload = data;\n    return msg;\n}\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 300,
+        "wires": [
+            [
+                "b93781fb3ab26ec6"
+            ]
+        ]
+    },
+    {
+        "id": "f2bbc34c321030aa",
+        "type": "function",
+        "z": "692949d792283a2c",
+        "name": "function 180",
+        "func": "var data = msg.payload;\nif(data.node === 4){\n    msg.payload = data;\n    return msg;\n}\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 340,
+        "wires": [
+            [
+                "3e330563f23ccf48"
+            ]
+        ]
+    },
+    {
+        "id": "5cb152f9f02f202c",
+        "type": "function",
+        "z": "692949d792283a2c",
+        "name": "function 181",
+        "func": "var data = msg.payload;\nif(data.node === 5){\n    msg.payload = data;\n    return msg;\n}\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 380,
+        "wires": [
+            [
+                "0c5cfd495ed5cb4c"
+            ]
+        ]
+    },
+    {
+        "id": "10f1d7051061fc3e",
+        "type": "function",
+        "z": "692949d792283a2c",
+        "name": "function 182",
+        "func": "var data = msg.payload;\nif(data.node === 6){\n    msg.payload = data;\n    return msg;\n}\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 420,
+        "wires": [
+            [
+                "ae6c0db3ad00e51b"
+            ]
+        ]
+    },
+    {
+        "id": "b9f8928db8d6f20a",
+        "type": "function",
+        "z": "692949d792283a2c",
+        "name": "function 183",
+        "func": "var data = msg.payload;\nif(data.node === 7){\n    msg.payload = data;\n    return msg;\n}\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 460,
+        "wires": [
+            [
+                "b709db0aecea692f"
+            ]
+        ]
+    },
+    {
+        "id": "0f3a4801b63d81ce",
+        "type": "change",
+        "z": "692949d792283a2c",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "node1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 750,
+        "y": 220,
+        "wires": [
+            [
+                "f2201fc83811f092",
+                "09eb7daa87511cf6"
+            ]
+        ]
+    },
+    {
+        "id": "ae67f73561944787",
+        "type": "change",
+        "z": "692949d792283a2c",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "node2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 750,
+        "y": 260,
+        "wires": [
+            [
+                "9b14a6e5c7d606f9",
+                "df856bf702f0a853"
+            ]
+        ]
+    },
+    {
+        "id": "b93781fb3ab26ec6",
+        "type": "change",
+        "z": "692949d792283a2c",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "node3",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 750,
+        "y": 300,
+        "wires": [
+            [
+                "0fef87dcf7688831",
+                "18b9f54e0bfcd8b7"
+            ]
+        ]
+    },
+    {
+        "id": "3e330563f23ccf48",
+        "type": "change",
+        "z": "692949d792283a2c",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "node4",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 750,
+        "y": 340,
+        "wires": [
+            [
+                "b03f88bdfbc75158",
+                "aebf1cf424a610c2"
+            ]
+        ]
+    },
+    {
+        "id": "0c5cfd495ed5cb4c",
+        "type": "change",
+        "z": "692949d792283a2c",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "node5",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 750,
+        "y": 380,
+        "wires": [
+            [
+                "70cd37f9e79ab3e7",
+                "8d199ce18db77744"
+            ]
+        ]
+    },
+    {
+        "id": "ae6c0db3ad00e51b",
+        "type": "change",
+        "z": "692949d792283a2c",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "node6",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 750,
+        "y": 420,
+        "wires": [
+            [
+                "26343c8d351c1ffa",
+                "da076b41c29654e7"
+            ]
+        ]
+    },
+    {
+        "id": "b709db0aecea692f",
+        "type": "change",
+        "z": "692949d792283a2c",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "node7",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 750,
+        "y": 460,
+        "wires": [
+            [
+                "3eac022e151494a5",
+                "b21bcc7f7ac7eddb"
+            ]
+        ]
+    },
+    {
+        "id": "f2201fc83811f092",
+        "type": "debug",
+        "z": "692949d792283a2c",
+        "name": "debug 49",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "9b14a6e5c7d606f9",
+        "type": "debug",
+        "z": "692949d792283a2c",
+        "name": "debug 50",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "0fef87dcf7688831",
+        "type": "debug",
+        "z": "692949d792283a2c",
+        "name": "debug 51",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "b03f88bdfbc75158",
+        "type": "debug",
+        "z": "692949d792283a2c",
+        "name": "debug 52",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "70cd37f9e79ab3e7",
+        "type": "debug",
+        "z": "692949d792283a2c",
+        "name": "debug 53",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "26343c8d351c1ffa",
+        "type": "debug",
+        "z": "692949d792283a2c",
+        "name": "debug 54",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "3eac022e151494a5",
+        "type": "debug",
+        "z": "692949d792283a2c",
+        "name": "debug 55",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "09eb7daa87511cf6",
+        "type": "mqtt out",
+        "z": "692949d792283a2c",
+        "name": "",
+        "topic": "topic/node1",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "2a4cd4ac64858d0c",
+        "x": 950,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "df856bf702f0a853",
+        "type": "mqtt out",
+        "z": "692949d792283a2c",
+        "name": "",
+        "topic": "topic/node2",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "2a4cd4ac64858d0c",
+        "x": 950,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "18b9f54e0bfcd8b7",
+        "type": "mqtt out",
+        "z": "692949d792283a2c",
+        "name": "",
+        "topic": "topic/node3",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "2a4cd4ac64858d0c",
+        "x": 950,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "aebf1cf424a610c2",
+        "type": "mqtt out",
+        "z": "692949d792283a2c",
+        "name": "",
+        "topic": "topic/node4",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "2a4cd4ac64858d0c",
+        "x": 950,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "8d199ce18db77744",
+        "type": "mqtt out",
+        "z": "692949d792283a2c",
+        "name": "",
+        "topic": "topic/node5",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "2a4cd4ac64858d0c",
+        "x": 950,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "da076b41c29654e7",
+        "type": "mqtt out",
+        "z": "692949d792283a2c",
+        "name": "",
+        "topic": "topic/node6",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "2a4cd4ac64858d0c",
+        "x": 950,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "b21bcc7f7ac7eddb",
+        "type": "mqtt out",
+        "z": "692949d792283a2c",
+        "name": "",
+        "topic": "topic/node7",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "2a4cd4ac64858d0c",
+        "x": 950,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "58afb9ecd5b6dd15",
+        "type": "serial in",
+        "z": "692949d792283a2c",
+        "x": 310,
+        "y": 220,
+        "wires": [
+            [
+                "441900dff971e1cf"
+            ]
+        ]
+    },
+    {
+        "id": "2a4cd4ac64858d0c",
+        "type": "mqtt-broker",
+        "name": "siskom",
+        "broker": "http://vps.isi-net.org",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
